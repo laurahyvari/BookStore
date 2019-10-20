@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Book List</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<h1>Books</h1>
+	<table>
+	<div class="col-md-4">
+		<h3 th:inline="text">Welcome [[${#httpServletRequest.remoteUser}]]</h3>
+	</div>
+	<div class="col-md-4" style="padding:20px 0">
+		<form th:action="@{/logout}" method="post">
+			<input type="submit" value="Sign Out" class="btn btn-danger"/>
+		</form>
+	</div>
+		<tr>
+			<th>Id</th>
+			<th>Title</th>
+			<th>author</th>
+			<th>year</th>
+			<th>price</th>
+			<th>isbn</th>
+			<th>Category</th>
+			<th sec:authorize="hasRole('ADMIN')"></th>
+		</tr>
+	 	<a href="/addBook" class="btn btn-primary">Add Book</a> 
+		<tr th:each="book : ${books}">
+			<td th:text="${book.id}">id</td>
+			<td th:text="${book.title}">title</td>
+			<td th:text="${book.author}">author</td>
+			<td th:text="${book.year}">year</td>
+			<td th:text="${book.isbn}">isbn</td>
+			<td th:text="${book.price}">price</td>
+			<td th:text="${book.category.name}">category</td>
+			<td sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/deletebook/{id}(id=${book.id})}">Delete</a></td>
+		
+		</tr>
+	</table>
+ <a href="/addbook">New Book</a>
+
+</body>
+</html>
